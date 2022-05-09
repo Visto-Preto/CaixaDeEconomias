@@ -17,31 +17,39 @@ def main():
     conta = ' R$ 1.000,00'
     ultO = '+'
     ultC = ' R$ 10,00'
-    os.system('cls')
+    os.system('clear')
     menu = '''
-{}========================================
-        {}CAIXA DE ECONOMIAS           
-{}========================================
-{}DATA: {}{}          {}HORA: {}{}
-{}----------------------------------------
+{}==============================================
+             {}CAIXA DE ECONOMIAS           
+{}==============================================
+{}----------------------------------------------
+{}DATA: {}{}                {}HORA: {}{}
+{}----------------------------------------------
 {}Ult. Movimento:{} [{}{}{}] {}{}
-{}----------------------------------------
+{}----------------------------------------------
 
 {}Valor em conta: {}{}
 
-{}----------------------------------------
-{}========================================
-{}01{}]	{}Depositar
-{}02{}]	{}Sacar
-{}00{}]	{}Sair{}
-========================================{}'''.format( green, blue, green, yellow, cyan, 
+{}----------------------------------------------
+{}==============================================
+{}01{}]    {}Depositar
+{}02{}]    {}Sacar
+{}03{}]    {}Extrato
+
+{}00{}]    {}Sair{}
+=============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
                                 datetime.today().strftime('%d/%m/%Y'),
                                 yellow, cyan, datetime.today().strftime('%H:%M:%S'),       
-                                magenta, yellow, cls, red, ultO, cls, green, ((20 - len(ultC)) * ' ' + ultC), magenta,                  
-                                yellow, green, ((24 - len(conta)) * ' ' + conta), magenta, green, blue, cls, yellow, blue,
-                                cls, yellow, blue, cls, yellow, green, cls)
+                                magenta, yellow, cls, red, ultO, cls, green, ((26 - len(ultC)) * ' ' + ultC), magenta,                  
+                                yellow, green, ((30 - len(conta)) * ' ' + conta), magenta, green, blue, cls, yellow, blue,
+                                cls, yellow, blue, cls, yellow, blue, cls, yellow, green, cls)
     print(menu)
-    rsp = input('{}Entre com o numero da opção:{}\n\n'.format(blue, cls))
-
+    rsp = str(input('{}Entre com o numero da opção:\n\n{}~/{}Terminal{} $ '.format(blue, green, yellow, cls)))
+   
+    if rsp == '00':
+        os.system('clear')
+    else:
+        main()
+        
 if __name__ == ('__main__'):
     main()
