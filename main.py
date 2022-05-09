@@ -24,14 +24,39 @@ def ver():
         con.commit()
         con.close()
 
+def depositar():
+    print('Funcao depositar')
+
+def sacar():
+    print('funcao sacar')
+
+def extrato():
+    print('funcao extrato')
+
+def movimentacao(x,y,z):
+    con = sqlite3.connect('settings/cde.db')
+    cur = con.cursor()
+    cur.execute('''INSERT INTO movimentacao VALUES('{}', '{}', '{}')'''.format(x, y, z))
+    con.commit()
+    con.close()
+
+def ultrow():
+    con = sqlite3.connect('settings/cde.db')
+    cur = con.cursor()
+    for row in cur.execute('''SELECT * FROM movimentacao'''):
+        ult = row
+    x = ult[2]
+    y = ult[1]
+    con.commit()
+    con.close()
+    return x, y
+        
 def v_conta():
 
     ver()
     def del_car(x):
-        x = str(x).replace('(', '')
-        x = str(x).replace(',', '')
-        x = str(x).replace(')', '')
-        if x == 'None':
+        x = x[0]
+        if x == None:
             x = 0.0
         else:
             x = float(x)
@@ -50,8 +75,13 @@ def v_conta():
 
 def main():
     conta = rs.float_to_s(v_conta())
-    ultO = '+'
-    ultC = ' R$ 10,00'
+    ultC , ultO = ultrow()
+    ultC = rs.float_to_s(ultC)
+    ultO = ultO.capitalize()
+    if len(ultO) == 5:
+        sp = '   '
+    else:
+        sp = ''
     os.system('cls')
     menu = '''
 {}==============================================
@@ -60,7 +90,7 @@ def main():
 {}----------------------------------------------
 {}DATA: {}{}                {}HORA: {}{}
 {}----------------------------------------------
-{}Ult. Movimento:{} [{}{}{}] {}{}
+{}Ult. Movimento:{} [{}{}{}]{} {}{}
 {}----------------------------------------------
 
 {}Valor em conta: {}{}
@@ -75,14 +105,23 @@ def main():
 =============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
                                 datetime.today().strftime('%d/%m/%Y'),
                                 yellow, cyan, datetime.today().strftime('%H:%M:%S'),       
-                                magenta, yellow, cls, red, ultO, cls, green, ((26 - len(ultC)) * ' ' + ultC), magenta,                  
+                                magenta, yellow, cls, red, ultO, cls, sp, green, ((19 - len(ultC)) * ' ' + ultC), magenta,                  
                                 yellow, green, ((30 - len(conta)) * ' ' + conta), magenta, green, blue, cls, yellow, blue,
                                 cls, yellow, blue, cls, yellow, blue, cls, yellow, green, cls)
     print(menu)
     rsp = str(input('{}Entre com o numero da opção:\n\n{}~/{}Terminal{} $ '.format(blue, green, yellow, cls)))
    
     if rsp == '00':
-        os.system('cls')
+        os.system('clear')
+    elif rsp == '01':
+        os.system('clear')
+        depositar()
+    elif rsp == '02':
+        os.system('clear')
+        sacar()
+    elif rsp == '03':
+        os.system('clear')
+        extrato()
     else:
         main()
         
