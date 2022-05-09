@@ -25,13 +25,50 @@ def ver():
         con.close()
 
 def depositar():
-    print('Funcao depositar')
+    print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
+    print('{}=============================================={}'.format(green, cls))
+    print()
+    rsp = str(input('{}Entre com o valor do depósito:\n\n{}~/{}Terminal{}/{}Deposito{} $ '.format(blue, green, yellow, green, yellow, cls)))
+    if rsp == '00':
+        os.system('clear')
+        main(mainop)
+    elif rsp.isnumeric():
+        rsp = float(rsp)
+        tp = 'deposito'
+        data = datetime.today().strftime('%d/%m/%Y')
+        movimentacao(data, tp, rsp)
+        os.system('clear')
+        main(depositar)        
+    else:
+        os.system('clear')
+        main(depositar)
+
+
 
 def sacar():
-    print('funcao sacar')
+    print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
+    print('{}=============================================={}'.format(green, cls))
+    print()
+    rsp = str(input('{}Entre com o valor do saque:\n\n{}~/{}Terminal{}/{}Saque{} $ '.format(blue, green, yellow, green, yellow, cls)))
+    if rsp == '00':
+        os.system('clear')
+        main(mainop)
+    elif rsp.isnumeric():
+        rsp = float(rsp)
+        tp = 'saque'
+        data = datetime.today().strftime('%d/%m/%Y')
+        movimentacao(data, tp, rsp)
+        os.system('clear')
+        main(sacar)
+    else:
+        os.system('clear')
+        main(sacar)
 
 def extrato():
-    print('funcao extrato')
+    con = sqlite3.connect('settings/cde.db')
+    cur = con.cursor()
+    for row in cur.execute('''SELECT * FROM movimentacao'''):
+        print(row)
 
 def movimentacao(x,y,z):
     con = sqlite3.connect('settings/cde.db')
@@ -73,7 +110,8 @@ def v_conta():
     con.close()
     return (deposito - saque)
 
-def main():
+
+def main(x):
     conta = rs.float_to_s(v_conta())
     ultC , ultO = ultrow()
     ultC = rs.float_to_s(ultC)
@@ -82,7 +120,7 @@ def main():
         sp = '   '
     else:
         sp = ''
-    os.system('cls')
+    os.system('clear')
     menu = '''
 {}==============================================
              {}CAIXA DE ECONOMIAS           
@@ -96,34 +134,38 @@ def main():
 {}Valor em conta: {}{}
 
 {}----------------------------------------------
-{}==============================================
-{}01{}]    {}Depositar
-{}02{}]    {}Sacar
-{}03{}]    {}Extrato
-
-{}00{}]    {}Sair{}
-=============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
+{}=============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
                                 datetime.today().strftime('%d/%m/%Y'),
                                 yellow, cyan, datetime.today().strftime('%H:%M:%S'),       
                                 magenta, yellow, cls, red, ultO, cls, sp, green, ((19 - len(ultC)) * ' ' + ultC), magenta,                  
-                                yellow, green, ((30 - len(conta)) * ' ' + conta), magenta, green, blue, cls, yellow, blue,
-                                cls, yellow, blue, cls, yellow, blue, cls, yellow, green, cls)
+                                yellow, green, ((30 - len(conta)) * ' ' + conta), magenta, green, cls)
     print(menu)
+    x()
+
+
+def mainop():
+ 
+    print('{}01{}]    {}Depositar'.format(blue,cls, yellow))
+    print('{}02{}]    {}Sacar'.format(blue,cls, yellow))
+    print('{}03{}]    {}Extrato'.format(blue,cls, yellow))
+    print('{}00{}]    {}Sair'.format(blue,cls, yellow))
+    print('{}=============================================={}'.format(green, cls))
+    print()
     rsp = str(input('{}Entre com o numero da opção:\n\n{}~/{}Terminal{} $ '.format(blue, green, yellow, cls)))
    
     if rsp == '00':
         os.system('clear')
     elif rsp == '01':
         os.system('clear')
-        depositar()
+        main(depositar)
     elif rsp == '02':
         os.system('clear')
-        sacar()
+        main(sacar)
     elif rsp == '03':
         os.system('clear')
-        extrato()
+        main(extrato)
     else:
-        main()
+        main(mainop)
         
 if __name__ == ('__main__'):
-    main()
+    main(mainop)
