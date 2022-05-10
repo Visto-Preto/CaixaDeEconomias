@@ -1,0 +1,7 @@
+#!/data/data/com.termux/files/usr/bin/bash
+clear
+rm -Rf /data/data/com.termux/files/usr/share/CaixaEco
+rm -Rf /data/data/com.termux/files/usr/bin/caixaeco
+echo ''
+echo 'Caixa de Economias desinstalado'
+echo ''

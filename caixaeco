@@ -1,0 +1,50 @@
+#!/data/data/com.termux/files/usr/bin/python3
+
+import sys, os
+
+
+
+# ________________________________
+
+__author__ = 'VistoPreto'
+__version__ = '1.00'
+
+# ________________________________
+
+
+if len(sys.argv) == 1:
+	arg = ''
+elif len(sys.argv) == 2:
+	arg = sys.argv[1]
+else:
+	arg = 'err'
+
+descricao = '''
+
+caixaeco [-about] [-start] [-uninstall] [-upgrade]
+
+-about		Sobre o script
+-start		Inciar funçoes do script
+-unistall	Remover a instalação do script
+-upgrade	Atualizar para versão mais recente
+
+'''
+
+def arg_analise(x):
+	if x == '-about':
+		print()
+		print('Desenvolvido por ', __author__)
+		print('Version ', __version__)
+		print()
+	elif x == '-start':
+		os.system('python /data/data/com.termux/files/usr/share/CaixaEco/main.py')
+	elif x == '-uninstall':
+		os.system('bash /data/data/com.termux/files/usr/share/CaixaEco/uninstall')
+	elif x == '-upgrade':
+		os.system('bash /data/data/com.termux/files/usr/share/CaixaEco/upgrade')
+	elif x == '' or x == 'err':
+		print(descricao)
+	else:
+		print(descricao)
+
+arg_analise(arg)
