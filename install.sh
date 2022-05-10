@@ -15,7 +15,7 @@ echo -e '\n\n'
 echo -e '\033[1;31mInstalando o Caixa de Economias...\033[m'
 echo -e '\n'
 
-git clone https://github.com/Visto-Preto/CaixaDeEconomias CaixaEco
+git clone https://github.com/Visto-Preto/CaixaDeEconomias.git CaixaEco
 
 cat CaixaEco/caixaeco > /data/data/com.termux/files/usr/bin/caixaeco
 chmod 700 /data/data/com.termux/files/usr/bin/caixaeco
