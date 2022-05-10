@@ -182,6 +182,7 @@ def mainop():
     rsp = str(input('{}Entre com o numero da opção:\n\n{}~/{}Terminal{} $ '.format(blue, green, yellow, cls)))
    
     if rsp == '00':
+        os.system('termux-vibrate -d 100')
         os.system('clear')
     elif rsp == '01':
         os.system('clear')
