@@ -16,6 +16,7 @@ cls = '\033[m'
 
 
 def ver():
+    os.system('termux-vibrate -d 100')
     if os.path.isfile('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db'):
         pass
     else:
