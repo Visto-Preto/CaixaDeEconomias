@@ -16,10 +16,10 @@ cls = '\033[m'
 
 
 def ver():
-    if os.path.isfile('settings/cde.db'):
+    if os.path.isfile('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db'):
         pass
     else:
-        con = sqlite3.connect('settings/cde.db')
+        con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
         cur = con.cursor()
         cur.execute('''CREATE TABLE movimentacao(Data date, TMov text, VMov real)''')
         cur.execute('''INSERT INTO movimentacao VALUES('{}', '{}', '{}')'''.format(datetime.today().strftime('%d/%m/%Y'), 'abertura', '0.0'))
@@ -74,7 +74,7 @@ def sacar():
 
 def extrato():
     print('{}----------------------------------------------{}'.format(magenta, cls))
-    con = sqlite3.connect('settings/cde.db')
+    con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
     cur = con.cursor()
     for row in cur.execute('''SELECT * FROM movimentacao'''):
         if len(row[1]) == 5:
@@ -97,14 +97,14 @@ def extrato():
 
 
 def movimentacao(x,y,z):
-    con = sqlite3.connect('settings/cde.db')
+    con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
     cur = con.cursor()
     cur.execute('''INSERT INTO movimentacao VALUES('{}', '{}', '{}')'''.format(x, y, z))
     con.commit()
     con.close()
 
 def ultrow():
-    con = sqlite3.connect('settings/cde.db')
+    con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
     cur = con.cursor()
     for row in cur.execute('''SELECT * FROM movimentacao'''):
         ult = row
@@ -125,7 +125,7 @@ def v_conta():
         else:
             x = float(x)
         return x
-    con = sqlite3.connect('settings/cde.db')
+    con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
     cur = con.cursor()
     for row in cur.execute('''SELECT SUM(VMov) FROM movimentacao WHERE TMov='deposito' '''):
         deposito = row
