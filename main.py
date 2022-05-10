@@ -21,6 +21,7 @@ def ver():
         con = sqlite3.connect('settings/cde.db')
         cur = con.cursor()
         cur.execute('''CREATE TABLE movimentacao(Data date, TMov text, VMov real)''')
+        cur.execute('''INSERT INTO movimentacao VALUES('{}', '{}', '{}')'''.format(datetime.today().strftime('%d/%m/%Y'), 'abertura', '0.0'))
         con.commit()
         con.close()
 
@@ -28,18 +29,21 @@ def depositar():
     print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
     print('{}=============================================={}'.format(green, cls))
     print()
-    rsp = str(input('{}Entre com o valor do depósito:\n\n{}~/{}Terminal{}/{}Deposito{} $ '.format(blue, green, yellow, green, yellow, cls)))
-    if rsp == '00':
+    try:
+        rsp = float(input('{}Entre com o valor do depósito:\n\n{}~/{}Terminal{}/{}Deposito{} $ '.format(blue, green, yellow, green, yellow, cls)))
+    except:
+        rsp = None
+        os.system('clear')
+        main(depositar)
+    if rsp == 0.0:
         os.system('clear')
         main(mainop)
-    elif rsp.isnumeric():
-        rsp = float(rsp)
+    elif rsp == None:
+        pass
+    else:
         tp = 'deposito'
         data = datetime.today().strftime('%d/%m/%Y')
         movimentacao(data, tp, rsp)
-        os.system('clear')
-        main(depositar)        
-    else:
         os.system('clear')
         main(depositar)
 
@@ -49,26 +53,47 @@ def sacar():
     print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
     print('{}=============================================={}'.format(green, cls))
     print()
-    rsp = str(input('{}Entre com o valor do saque:\n\n{}~/{}Terminal{}/{}Saque{} $ '.format(blue, green, yellow, green, yellow, cls)))
-    if rsp == '00':
+    try:
+        rsp = float(input('{}Entre com o valor do saque:\n\n{}~/{}Terminal{}/{}Saque{} $ '.format(blue, green, yellow, green, yellow, cls)))
+    except:
+        rsp = None
+        os.system('clear')
+        main(sacar)
+    if rsp == 0.0:
         os.system('clear')
         main(mainop)
-    elif rsp.isnumeric():
-        rsp = float(rsp)
+    elif rsp == None:
+        pass
+    else:
         tp = 'saque'
         data = datetime.today().strftime('%d/%m/%Y')
         movimentacao(data, tp, rsp)
         os.system('clear')
         main(sacar)
-    else:
-        os.system('clear')
-        main(sacar)
 
 def extrato():
+    print('{}----------------------------------------------{}'.format(magenta, cls))
     con = sqlite3.connect('settings/cde.db')
     cur = con.cursor()
     for row in cur.execute('''SELECT * FROM movimentacao'''):
-        print(row)
+        if len(row[1]) == 5:
+            sp = '   '
+        else:
+            sp = ''
+        print('{}{} {}{} {}{}{}'.format(cyan, row[0], red, row[1].capitalize() + sp, green, ((26 - len(rs.float_to_s(row[2]))) * ' ' + rs.float_to_s(row[2])  ), cls))
+        print('{}----------------------------------------------{}'.format(magenta, cls))
+    print('{}=============================================={}'.format(green, cls))
+    print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
+    print('{}=============================================={}'.format(green, cls))
+    print()
+    rsp = str(input('{}Entre com o número da opção:\n\n{}~/{}Terminal{}/{}Extrato{} $ '.format(blue, green, yellow, green, yellow, cls)))
+    if rsp == '00':
+        os.system('clear')
+        main(mainop)
+    else:
+        os.system('clear')
+        main(extrato)
+
 
 def movimentacao(x,y,z):
     con = sqlite3.connect('settings/cde.db')
@@ -84,9 +109,10 @@ def ultrow():
         ult = row
     x = ult[2]
     y = ult[1]
+    z = ult[0]
     con.commit()
     con.close()
-    return x, y
+    return x, y, z
         
 def v_conta():
 
@@ -113,7 +139,7 @@ def v_conta():
 
 def main(x):
     conta = rs.float_to_s(v_conta())
-    ultC , ultO = ultrow()
+    ultC , ultO, dt = ultrow()
     ultC = rs.float_to_s(ultC)
     ultO = ultO.capitalize()
     if len(ultO) == 5:
@@ -128,7 +154,7 @@ def main(x):
 {}----------------------------------------------
 {}DATA: {}{}                {}HORA: {}{}
 {}----------------------------------------------
-{}Ult. Movimento:{} [{}{}{}]{} {}{}
+{}UltM: {}|{}{}{}| |{}{}{}|{} {}{}
 {}----------------------------------------------
 
 {}Valor em conta: {}{}
@@ -137,7 +163,7 @@ def main(x):
 {}=============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
                                 datetime.today().strftime('%d/%m/%Y'),
                                 yellow, cyan, datetime.today().strftime('%H:%M:%S'),       
-                                magenta, yellow, cls, red, ultO, cls, sp, green, ((19 - len(ultC)) * ' ' + ultC), magenta,                  
+                                magenta, yellow , magenta, red, dt ,magenta, red, ultO, magenta, sp, green, ((16 - len(ultC)) * ' ' + ultC), magenta,                  
                                 yellow, green, ((30 - len(conta)) * ' ' + conta), magenta, green, cls)
     print(menu)
     x()
