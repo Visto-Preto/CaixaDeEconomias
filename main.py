@@ -29,7 +29,7 @@ def ver():
 
 def depositar():
     print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
-    print('{}=============================================={}'.format(green, cls))
+    print('{}==============================================={}'.format(green, cls))
     print()
     try:
         rsp = float(input('{}Entre com o valor do depósito:\n\n{}~/{}Terminal{}/{}Deposito{} $ '.format(blue, green, yellow, green, yellow, cls)))
@@ -53,7 +53,7 @@ def depositar():
 
 def sacar():
     print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
-    print('{}=============================================={}'.format(green, cls))
+    print('{}==============================================={}'.format(green, cls))
     print()
     try:
         rsp = float(input('{}Entre com o valor do saque:\n\n{}~/{}Terminal{}/{}Saque{} $ '.format(blue, green, yellow, green, yellow, cls)))
@@ -74,7 +74,7 @@ def sacar():
         main(sacar)
 
 def extrato():
-    print('{}----------------------------------------------{}'.format(magenta, cls))
+    print('{}-----------------------------------------------{}'.format(magenta, cls))
     con = sqlite3.connect('/data/data/com.termux/files/usr/share/CaixaEco/settings/cde.db')
     cur = con.cursor()
     for row in cur.execute('''SELECT * FROM movimentacao'''):
@@ -83,10 +83,10 @@ def extrato():
         else:
             sp = ''
         print('{}{} {}{} {}{}{}'.format(cyan, row[0], red, row[1].capitalize() + sp, green, ((26 - len(rs.float_to_s(row[2]))) * ' ' + rs.float_to_s(row[2])  ), cls))
-        print('{}----------------------------------------------{}'.format(magenta, cls))
-    print('{}=============================================={}'.format(green, cls))
+        print('{}-----------------------------------------------{}'.format(magenta, cls))
+    print('{}==============================================={}'.format(green, cls))
     print('{}00{}]    {}Voltar{}'.format(blue,cls, yellow, cls))
-    print('{}=============================================={}'.format(green, cls))
+    print('{}==============================================={}'.format(green, cls))
     print()
     rsp = str(input('{}Entre com o número da opção:\n\n{}~/{}Terminal{}/{}Extrato{} $ '.format(blue, green, yellow, green, yellow, cls)))
     if rsp == '00':
@@ -150,19 +150,19 @@ def main(x):
         sp = ''
     os.system('clear')
     menu = '''
-{}==============================================
+{}===============================================
              {}CAIXA DE ECONOMIAS           
-{}==============================================
-{}----------------------------------------------
+{}===============================================
+{}-----------------------------------------------
 {}DATA: {}{}                {}HORA: {}{}
-{}----------------------------------------------
+{}-----------------------------------------------
 {}UltM: {}|{}{}{}| |{}{}{}|{} {}{}
-{}----------------------------------------------
+{}-----------------------------------------------
 
 {}Valor em conta: {}{}
 
-{}----------------------------------------------
-{}=============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
+{}-----------------------------------------------
+{}==============================================={}'''.format( green, blue ,green, magenta, yellow, cyan, 
                                 datetime.today().strftime('%d/%m/%Y'),
                                 yellow, cyan, datetime.today().strftime('%H:%M:%S'),       
                                 magenta, yellow , magenta, red, dt ,magenta, red, ultO, magenta, sp, green, ((16 - len(ultC)) * ' ' + ultC), magenta,                  
@@ -177,7 +177,7 @@ def mainop():
     print('{}02{}]    {}Sacar'.format(blue,cls, yellow))
     print('{}03{}]    {}Extrato'.format(blue,cls, yellow))
     print('{}00{}]    {}Sair'.format(blue,cls, yellow))
-    print('{}=============================================={}'.format(green, cls))
+    print('{}==============================================={}'.format(green, cls))
     print()
     rsp = str(input('{}Entre com o numero da opção:\n\n{}~/{}Terminal{} $ '.format(blue, green, yellow, cls)))
    
